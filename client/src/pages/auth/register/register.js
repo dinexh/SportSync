@@ -19,6 +19,12 @@ const Register = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [errors, setErrors] = useState({});
 
+    // Add new state for password visibility
+    const [showPassword, setShowPassword] = useState({
+        password: false,
+        confirmPassword: false
+    });
+
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setFormData(prev => ({
@@ -154,25 +160,45 @@ const Register = () => {
                     <>
                         <h2>Security</h2>
                         <p className="form-subtitle">Create your password</p>
-                        <div className="form-group">
+                        <div className="form-group password-input-container">
                             <input
-                                type="password"
+                                type={showPassword.password ? "text" : "password"}
                                 name="password"
                                 placeholder="Password"
                                 value={formData.password}
                                 onChange={handleChange}
                                 required
                             />
+                            <button 
+                                type="button"
+                                className="password-toggle"
+                                onClick={() => setShowPassword(prev => ({
+                                    ...prev,
+                                    password: !prev.password
+                                }))}
+                            >
+                                {showPassword.password ? "Hide" : "Show"}
+                            </button>
                         </div>
-                        <div className="form-group">
+                        <div className="form-group password-input-container">
                             <input
-                                type="password"
+                                type={showPassword.confirmPassword ? "text" : "password"}
                                 name="confirmPassword"
                                 placeholder="Confirm Password"
                                 value={formData.confirmPassword}
                                 onChange={handleChange}
                                 required
                             />
+                            <button 
+                                type="button"
+                                className="password-toggle"
+                                onClick={() => setShowPassword(prev => ({
+                                    ...prev,
+                                    confirmPassword: !prev.confirmPassword
+                                }))}
+                            >
+                                {showPassword.confirmPassword ? "Hide" : "Show"}
+                            </button>
                         </div>
                         <div className="terms-container">
                             <div className="terms-scroll">

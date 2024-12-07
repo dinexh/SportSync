@@ -5,67 +5,45 @@
   padding: 1rem 2rem;
   background-color: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 250px; /* Same as sidebar width */
-  z-index: 100;
 }
 
-.dashboard-nav-left {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.dashboard-logo {
-  font-size: 1.5rem;
-  font-weight: bold;
+.dashboard-nav-left h2 {
+  margin: 0;
   color: #333;
-  text-decoration: none;
-}
-
-.dashboard-role {
-  padding: 0.25rem 0.75rem;
-  background-color: #e3e3e3;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  font-weight: 500;
 }
 
 .dashboard-nav-right {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
-.dashboard-user-info {
+.user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.user-name {
+  font-weight: 600;
+  color: #333;
+}
+
+.user-role {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
 }
 
-.dashboard-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.dashboard-username {
-  font-weight: 500;
-}
-
-.dashboard-logout-btn {
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 4px;
-  background-color: #ff4444;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.dashboard-logout-btn:hover {
-  background-color: #ff0000;
+.avatar-placeholder {
+  font-size: 1.5rem;
 } 

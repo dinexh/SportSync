@@ -154,8 +154,7 @@
 }
 
 .password-input {
-  display: flex;
-  align-items: center;
+  position: relative;
 }
 
 .toggle-password {
@@ -167,15 +166,17 @@
   border: none;
   cursor: pointer;
   padding: 0;
-  font-size: 1.2rem;
-  color: #666;
   display: flex;
   align-items: center;
-  justify-content: center;
+  color: #666;
 }
 
 .toggle-password:hover {
   color: #333;
+}
+
+.password-input input {
+  padding-right: 40px;
 }
 
 .error-banner {

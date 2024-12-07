@@ -1,38 +1,24 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useContext } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import './DashboardNav.css';
 
 const DashboardNav = () => {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
+  const { user } = useAuth();
+  console.log('User data in DashboardNav:', user);
 
   return (
     <nav className="dashboard-nav">
       <div className="dashboard-nav-left">
-        <Link to="/" className="dashboard-logo">
-          SportSync
-        </Link>
-        <span className="dashboard-role">{user.role.toUpperCase()}</span>
+        <h2>Dashboard</h2>
       </div>
-      
       <div className="dashboard-nav-right">
-        <div className="dashboard-user-info">
-          <img 
-            src={user.avatar || '/default-avatar.png'} 
-            alt="Profile" 
-            className="dashboard-avatar"
-          />
-          <span className="dashboard-username">{user.name}</span>
+        <div className="user-info">
+          <span className="user-name">{user?.displayName || user?.email || 'User'}</span>
+          <span className="user-role">{user?.userType || 'Guest'}</span>
         </div>
-        <button onClick={handleLogout} className="dashboard-logout-btn">
-          Logout
-        </button>
+        <div className="user-avatar">
+          <span className="avatar-placeholder">👤</span>
+        </div>
       </div>
     </nav>
   );

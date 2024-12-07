@@ -2,16 +2,22 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Sidebar from '../../../components/sidebar/Sidebar';
 import DashboardNav from '../../../components/dashboard/DashboardNav';
+import ManageUsers from './components/ManageUsers';
+import ManageEvents from './components/ManageEvents';
+import ViewPlayers from './components/ViewPlayers';
+import ViewEvents from './components/ViewEvents';
+import Profile from './components/Profile';
+import Home from './components/Home';
 import '../Dashboard.css';
 
 const CoachDashboard = () => {
   const menuItems = [
-    { title: 'Overview', path: '/dashboard/coach', icon: '👥' },
-    { title: 'My Teams', path: '/dashboard/coach/teams', icon: '👥' },
-    { title: 'Training Plans', path: '/dashboard/coach/training', icon: '📋' },
-    { title: 'Schedule', path: '/dashboard/coach/schedule', icon: '📅' },
-    { title: 'Player Stats', path: '/dashboard/coach/stats', icon: '📈' },
-    { title: 'Settings', path: '/dashboard/coach/settings', icon: '⚙️' },
+    { title: 'Home', path: '/dashboard/coach', icon: '🏠' },
+    { title: 'Manage Users', path: '/users', icon: '👥' },
+    { title: 'Manage Events', path: '/dashboard/coach/events', icon: '📋' },
+    { title: 'View Players', path: '/dashboard/coach/players', icon: '👤' },
+    { title: 'View Events', path: '/dashboard/coach/view-events', icon: '📅' },
+    { title: 'Profile', path: '/dashboard/coach/profile', icon: '⚙️' },
   ];
 
   return (
@@ -21,12 +27,12 @@ const CoachDashboard = () => {
         <DashboardNav />
         <div className="dashboard-content">
           <Routes>
-            <Route path="/" element={<h1>Coach Overview</h1>} />
-            <Route path="/teams" element={<h1>Team Management</h1>} />
-            <Route path="/training" element={<h1>Training Plans</h1>} />
-            <Route path="/schedule" element={<h1>Schedule</h1>} />
-            <Route path="/stats" element={<h1>Player Statistics</h1>} />
-            <Route path="/settings" element={<h1>Settings</h1>} />
+            <Route path="/" element={<Home />} />
+            <Route path="/users" element={<ManageUsers />} />
+            <Route path="/events" element={<ManageEvents />} />
+            <Route path="/players" element={<ViewPlayers />} />
+            <Route path="/view-events" element={<ViewEvents />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </div>
       </div>

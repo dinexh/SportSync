@@ -5,6 +5,7 @@ import illustration from '../../../assets/auth-illustration.svg';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../../../context/AuthContext';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -130,8 +131,9 @@ const Login = () => {
                   type="button"
                   className="toggle-password"
                   onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
-                  {showPassword ? '👁️' : '👁️‍🗨️'}
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </button>
                 {errors.password && <span className="error-message">{errors.password}</span>}
               </div>

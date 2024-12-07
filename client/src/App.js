@@ -1,5 +1,4 @@
 import './App.css';
-import './styles/toast.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 
@@ -21,36 +20,25 @@ import UserDashboard from './pages/dashboard/user/UserDashboard';
 
 function App() {
   return (
-    <AuthProvider>
-      <div className="App">
-        <Router>
+    <Router>
+      <AuthProvider>
+        <div className="App">
           <Routes>
-            <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
-            <Route
-              path="/dashboard/coach/*"
-              element={
-                <ProtectedRoute role="coach">
-                  <CoachDashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/dashboard/player/*"
-              element={
-                <ProtectedRoute role="player">
-                  <PlayerDashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/dashboard/user/*"
-              element={
-                <ProtectedRoute role="user">
-                  <UserDashboard />
-                </ProtectedRoute>
-              }
-            />
+            <Route path="/register" element={<Register />} />
+            
+            {/* Protected Routes */}
+            <Route element={<ProtectedRoute allowedRoles={['coach']} />}>
+              <Route path="/dashboard/coach" element={<CoachDashboard />} />
+            </Route>
+            
+            <Route element={<ProtectedRoute allowedRoles={['player']} />}>
+              <Route path="/dashboard/player" element={<PlayerDashboard />} />
+            </Route>
+            
+            <Route element={<ProtectedRoute allowedRoles={['user']} />}>
+              <Route path="/dashboard/user" element={<UserDashboard />} />
+            </Route>
             <Route
               path="/"
               element={
@@ -63,9 +51,9 @@ function App() {
               }
             />
           </Routes>
-        </Router>
-      </div>
-    </AuthProvider>
+        </div>
+      </AuthProvider>
+    </Router>
   );
 }
 

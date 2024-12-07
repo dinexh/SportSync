@@ -1,16 +1,18 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Sidebar from '../../../components/sidebar/Sidebar';
+import Profile from './components/Profile';
+import MyMatches from './components/MyMatches';
+import Schedule from './components/Schedule';
+import Home from './components/Home';
 import '../Dashboard.css';
 
 const PlayerDashboard = () => {
   const menuItems = [
-    { title: 'Overview', path: '/dashboard/player', icon: '�' },
-    { title: 'My Team', path: '/dashboard/player/team', icon: '👥' },
-    { title: 'Training', path: '/dashboard/player/training', icon: '💪' },
-    { title: 'Schedule', path: '/dashboard/player/schedule', icon: '📅' },
-    { title: 'My Stats', path: '/dashboard/player/stats', icon: '📈' },
-    { title: 'Profile', path: '/dashboard/player/profile', icon: '👤' },
+    { title: 'Home', path: '/player', icon: '🏠' },
+    { title: 'My Matches', path: '/matches', icon: '⚽' },
+    { title: 'My Schedule', path: '/schedule', icon: '📅' },
+    { title: 'Profile', path: '/profile', icon: '👤' },
   ];
 
   return (
@@ -18,12 +20,10 @@ const PlayerDashboard = () => {
       <Sidebar menuItems={menuItems} />
       <div className="dashboard-content">
         <Routes>
-          <Route path="/" element={<h1>Player Overview</h1>} />
-          <Route path="/team" element={<h1>My Team</h1>} />
-          <Route path="/training" element={<h1>Training Schedule</h1>} />
-          <Route path="/schedule" element={<h1>Game Schedule</h1>} />
-          <Route path="/stats" element={<h1>My Statistics</h1>} />
-          <Route path="/profile" element={<h1>Player Profile</h1>} />
+          <Route path="/" element={<Home />} />
+          <Route path="/matches" element={<MyMatches />} />
+          <Route path="/schedule" element={<Schedule />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </div>
     </div>
