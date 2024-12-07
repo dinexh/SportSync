@@ -27,8 +27,6 @@ function App() {
           <Routes>
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
-            
-            {/* Protected Dashboard Routes */}
             <Route
               path="/dashboard/coach/*"
               element={
@@ -53,7 +51,6 @@ function App() {
                 </ProtectedRoute>
               }
             />
-
             <Route
               path="/"
               element={
