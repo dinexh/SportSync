@@ -13,51 +13,178 @@ SportSync is a modern sports event management and scheduling platform that helps
 
 ## Authentication Flow
 
-### JWT (JSON Web Token) Authentication
+### JWT (JSON Web Token) Implementation
 
-SportSync uses JWT-based authentication to secure API endpoints and manage user sessions. Here's how it works:
+#### 1. Login Flow
 
-1. **Login Flow**:
+1. **Authentication Process**:
    - User submits credentials (email/password)
-   - Server validates credentials
-   - Server generates JWT containing user information and permissions
-   - Token is sent back to client
-   - Client stores token in local storage/memory
+   - Server validates against MongoDB database
+   - On successful validation:
+     ```javascript
+     // JWT Generation
+     const token = jwt.sign(
+       {
+         userId: user._id,
+         role: user.role,
+         iat: Date.now(),
+         exp: Date.now() + 3600000 // 1 hour
+       },
+       process.env.JWT_SECRET
+     );
+     ```
 
-2. **Token Structure**:
-   ```
-   header.payload.signature
-   ```
-   - Header: Algorithm & token type
-   - Payload: User data & claims
-   - Signature: Encrypted verification segment
+2. **Token Storage**:
+   - Access Token: Memory (React Context/State)
+   - Refresh Token: HTTP-only cookie
 
-3. **Request Flow**:
-   - Client includes JWT in Authorization header
-   - Server validates token signature
-   - Server checks token expiration
-   - If valid, grants access to protected resources
+#### 2. Token Structure and Management
+```javascript
+{
+  "header": {
+    "alg": "HS256",
+    "typ": "JWT"
+  },
+  "payload": {
+    "userId": "123456",
+    "role": "admin",
+    "iat": 1714239022,
+    "exp": 1714242622
+  },
+  "signature": "HMACSHA256(base64UrlEncode(header) + '.' + base64UrlEncode(payload), secret)"
+}
+```
+
+#### 3. Request Flow
+- Client includes JWT in Authorization header
+- Server validation process:
+  ```javascript
+  // Middleware example
+  const validateToken = async (req, res, next) => {
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) return res.status(401).json({ error: 'No token provided' });
+    
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      req.user = decoded;
+      next();
+    } catch (error) {
+      res.status(401).json({ error: 'Invalid token' });
+    }
+  };
+  ```
+
+#### 4. Token Lifecycle
+- Access Token: 1 hour expiration
+- Refresh Token: 7 days validity
+- Refresh Flow:
+  ```javascript
+  // Refresh token endpoint
+  app.post('/refresh-token', async (req, res) => {
+    const { refreshToken } = req.cookies;
+    if (!refreshToken) return res.status(401).json({ error: 'No refresh token' });
+    
+    try {
+      const decoded = jwt.verify(refreshToken, process.env.REFRESH_SECRET);
+      const newAccessToken = generateAccessToken(decoded.userId);
+      res.json({ accessToken: newAccessToken });
+    } catch (error) {
+      res.status(401).json({ error: 'Invalid refresh token' });
+    }
+  });
+  ```
 
 ### Session Management
 
-SportSync implements a hybrid session management approach:
+#### 1. MongoDB Session Storage
+```javascript
+// Session Schema
+const sessionSchema = new Schema({
+  sessionId: { type: String, required: true, unique: true },
+  userId: { type: Schema.Types.ObjectId, ref: 'User' },
+  ipAddress: String,
+  lastActive: Date,
+  expiresAt: Date,
+  deviceInfo: String
+});
+```
 
-1. **Server-side Sessions**:
-   - Session ID stored in database
-   - Contains user state and preferences
-   - Handles sensitive operations
+#### 2. Session Operations
+```javascript
+// Session creation
+const createSession = async (userId, req) => {
+  const session = new Session({
+    sessionId: `sess_${crypto.randomBytes(16).toString('hex')}`,
+    userId,
+    ipAddress: req.ip,
+    lastActive: new Date(),
+    expiresAt: new Date(Date.now() + 86400000), // 24 hours
+    deviceInfo: req.headers['user-agent']
+  });
+  await session.save();
+  return session;
+};
+```
 
-2. **Cookie Management**:
-   - HTTP-only cookies for enhanced security
-   - Secure flag enabled for HTTPS
-   - SameSite policy implementation
-   - CSRF protection
+### Cookie Management
 
-3. **Security Measures**:
-   - Token refresh mechanism
-   - Session timeout
-   - Concurrent session handling
-   - IP-based session validation
+#### 1. Cookie Configuration
+```javascript
+const cookieConfig = {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === 'production',
+  sameSite: 'strict',
+  domain: '.sportsync.com',
+  path: '/',
+  maxAge: 604800000 // 7 days
+};
+
+// Setting refresh token cookie
+res.cookie('refreshToken', token, cookieConfig);
+```
+
+#### 2. Security Implementation
+```javascript
+// CSRF Protection
+app.use(csrf({
+  cookie: {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production'
+  }
+}));
+
+// Security Headers
+app.use((req, res, next) => {
+  res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  next();
+});
+```
+
+### Error Handling
+
+```javascript
+// Global error handler
+app.use((err, req, res, next) => {
+  if (err.name === 'UnauthorizedError') {
+    return res.status(401).json({
+      error: 'Invalid token',
+      details: err.message
+    });
+  }
+  
+  if (err.name === 'TokenExpiredError') {
+    return res.status(401).json({
+      error: 'Token expired',
+      details: 'Please refresh your token'
+    });
+  }
+  
+  next(err);
+});
+```
 
 ## Installation
 
