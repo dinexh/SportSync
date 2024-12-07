@@ -1,18 +1,25 @@
-import { Navigate, Outlet } from 'react-router-dom';
+import React from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-const ProtectedRoute = ({ allowedRoles }) => {
-  const { user, isAuthenticated } = useAuth();
+const ProtectedRoute = ({ children }) => {
+  const { user, loading } = useAuth();
+  const location = useLocation();
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+      </div>
+    );
   }
 
-  if (allowedRoles && !allowedRoles.includes(user?.userType)) {
-    return <Navigate to="/unauthorized" replace />;
+  if (!user) {
+    // Redirect to login while saving the attempted url
+    return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  return <Outlet />;
+  return children;
 };
 
 export default ProtectedRoute; 

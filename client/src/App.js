@@ -1,60 +1,117 @@
-import './App.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
-
-// components
-import Nav from './components/nav/nav';
-import Footer from './components/footer/Footer';
+import Navbar from './components/Navbar/Navbar';
+import Chatbot from './components/Chatbot/Chatbot';
+import Home from './pages/Home/Home';
+import Login from './pages/Auth/Login';
+import StudentRegister from './pages/Auth/StudentRegister';
+import CoachRegister from './pages/Auth/CoachRegister';
+import Departments from './pages/Departments/Departments';
+import LiveMatches from './pages/LiveMatches/LiveMatches';
+import Tournaments from './pages/Tournaments/Tournaments';
+import Athletes from './pages/Athletes/Athletes';
+import Profile from './pages/Account/Profile';
 import ProtectedRoute from './components/ProtectedRoute';
-
-// UI
-import Hero from './UI/hero/hero';
-import Home from './UI/home/home';
-
-// pages
-import Register from './pages/auth/register/register';
-import Login from './pages/auth/login/login';
-import CoachDashboard from './pages/dashboard/coach/CoachDashboard';
-import PlayerDashboard from './pages/dashboard/player/PlayerDashboard';
-import UserDashboard from './pages/dashboard/user/UserDashboard';
+import MyRegistrations from './pages/Account/MyRegistrations';
+import Settings from './pages/Account/Settings';
+import './App.css';
 
 function App() {
   return (
-    <Router>
-      <AuthProvider>
+    <AuthProvider>
+      <Router>
         <div className="App">
+          <Navbar />
           <Routes>
+            {/* Redirect root path to login */}
+            <Route path="/" element={<Navigate to="/login" replace />} />
+            
+            {/* Public auth routes */}
             <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/register/student" element={<StudentRegister />} />
             
-            {/* Protected Routes */}
-            <Route element={<ProtectedRoute allowedRoles={['coach']} />}>
-              <Route path="/dashboard/coach" element={<CoachDashboard />} />
-            </Route>
-            
-            <Route element={<ProtectedRoute allowedRoles={['player']} />}>
-              <Route path="/dashboard/player" element={<PlayerDashboard />} />
-            </Route>
-            
-            <Route element={<ProtectedRoute allowedRoles={['user']} />}>
-              <Route path="/dashboard/user" element={<UserDashboard />} />
-            </Route>
-            <Route
-              path="/"
+            {/* Protected auth routes */}
+            <Route 
+              path="/register/coach" 
               element={
-                <>
-                  <Nav />
-                  <Hero />
+                <ProtectedRoute>
+                  <CoachRegister />
+                </ProtectedRoute>
+              } 
+            />
+            
+            {/* Protected routes */}
+            <Route 
+              path="/home" 
+              element={
+                <ProtectedRoute>
                   <Home />
-                  <Footer />
-                </>
-              }
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/departments" 
+              element={
+                <ProtectedRoute>
+                  <Departments />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/live-matches" 
+              element={
+                <ProtectedRoute>
+                  <LiveMatches />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/tournaments" 
+              element={
+                <ProtectedRoute>
+                  <Tournaments />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/athletes" 
+              element={
+                <ProtectedRoute>
+                  <Athletes />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/profile" 
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/account/registrations" 
+              element={
+                <ProtectedRoute>
+                  <MyRegistrations />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/account/settings" 
+              element={
+                <ProtectedRoute>
+                  <Settings />
+                </ProtectedRoute>
+              } 
             />
           </Routes>
+          <Chatbot />
         </div>
-      </AuthProvider>
-    </Router>
+      </Router>
+    </AuthProvider>
   );
 }
 
-export default App;
+export default App; 
