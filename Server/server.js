@@ -30,8 +30,6 @@ const userSchema = new mongoose.Schema({
 });
 
 const User = mongoose.model('User', userSchema);
-
-// Register User
 app.post('/api/auth/register', async (req, res) => {
   const { email, password, name, phoneNumber, profession } = req.body;
   
@@ -57,8 +55,6 @@ app.post('/api/auth/register', async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
-
-// Login User
 app.post('/api/auth/login', async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -81,7 +77,6 @@ app.post('/api/auth/login', async (req, res) => {
   }
 });
 
-// Protect Routes (Example)
 app.get('/api/protected', (req, res) => {
   const token = req.headers.authorization?.split(' ')[1];  // Bearer <token>
 
@@ -96,8 +91,6 @@ app.get('/api/protected', (req, res) => {
     res.status(200).json({ message: 'Access granted', userId: decoded.userId });
   });
 });
-
-// Start the server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

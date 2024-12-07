@@ -49,15 +49,16 @@ const Login = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:5001/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-        }),
+      // For Login
+const response = await fetch('https://sport-sync-three.vercel.app/api/auth/login', {
+  method: 'POST',
+  headers: {
+      'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+      email: formData.email,
+      password: formData.password,
+  }),
       });
 
       const data = await response.json();
