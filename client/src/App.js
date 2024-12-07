@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar/Navbar';
-import Chatbot from './components/Chatbot/Chatbot';
+// import Chatbot from './components/Chatbot/Chatbot';
 import Home from './pages/Home/Home';
 import Login from './pages/Auth/Login';
 import StudentRegister from './pages/Auth/StudentRegister';
@@ -107,7 +107,7 @@ function App() {
               } 
             />
           </Routes>
-          <Chatbot />
+          {/* <Chatbot /> */}
         </div>
       </Router>
     </AuthProvider>
