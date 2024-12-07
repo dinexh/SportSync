@@ -56,19 +56,18 @@ const Register = () => {
         }
 
         try {
-           // For Register
-const response = await fetch('https://sport-sync-three.vercel.app/api/auth/register', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-        email: formData.email,
-        password: formData.password,
-        name: formData.name,
-        phoneNumber: formData.phoneNumber,
-        profession: formData.profession,
-    }),
+            const response = await fetch('http://localhost:5001/api/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: formData.email,
+                    password: formData.password,
+                    name: formData.name,
+                    phoneNumber: formData.phoneNumber,
+                    profession: formData.profession
+                }),
             });
 
             const data = await response.json();
