@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import './Register.css';
+import { database } from '../../firebase/config';
+import { ref, set, get } from 'firebase/database';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -120,28 +122,71 @@ const Register = () => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     toast.promise(
       submitRegistration(),
       {
         loading: 'Creating your account...',
-        success: 'Registration successful!',
-        error: 'Registration failed. Please try again.',
+        success: (result) => {
+          navigate('/dashboard');
+          return 'Registration successful!';
+        },
+        error: (err) => {
+          console.error('Registration error:', err);
+          return err.message || 'Registration failed. Please try again.';
+        },
       }
     );
   };
 
   const submitRegistration = async () => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if (Math.random() > 0.1) {
-          resolve();
-          navigate('/dashboard');
-        } else {
-          reject(new Error('Registration failed'));
-        }
-      }, 2000);
-    });
+    try {
+      // Generate a unique ID for the user
+      const userId = Date.now().toString();
+      
+      // Create the user data object
+      const userData = {
+        id: userId,
+        role: formData.role,
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        sport: formData.sport,
+        experience: formData.role === 'coach' ? formData.experience : null,
+        certifications: formData.role === 'coach' ? formData.certifications : null,
+        createdAt: new Date().toISOString()
+      };
+
+      // Test database connection before writing
+      const testRef = ref(database, '.info/connected');
+      const connectionSnapshot = await get(testRef);
+      
+      if (!connectionSnapshot.exists()) {
+        throw new Error('Unable to connect to database. Please check your internet connection.');
+      }
+
+      // Save to Firebase Realtime Database
+      await set(ref(database, 'users/' + userId), userData);
+
+      // Store user info in localStorage (excluding sensitive data)
+      const userInfo = {
+        id: userId,
+        name: formData.name,
+        email: formData.email,
+        role: formData.role
+      };
+      localStorage.setItem('user', JSON.stringify(userInfo));
+
+      return { success: true, user: userInfo };
+    } catch (error) {
+      console.error('Registration error:', error);
+      if (error.code === 'PERMISSION_DENIED') {
+        throw new Error('Database access denied. Please check your permissions.');
+      } else if (error.code === 'NETWORK_ERROR') {
+        throw new Error('Network error. Please check your internet connection.');
+      }
+      throw error;
+    }
   };
 
   return (

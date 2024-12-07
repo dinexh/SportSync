@@ -3,6 +3,8 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { FaEnvelope, FaLock, FaSignInAlt } from 'react-icons/fa';
 import './Login.css';
+import { database } from '../../firebase/config';
+import { ref, query, orderByChild, equalTo, get } from 'firebase/database';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -14,10 +16,29 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await login(email, password);
-      navigate('/home'); // Redirect to home page after successful login
+      const userRef = query(
+        ref(database, 'users'),
+        orderByChild('email'),
+        equalTo(email)
+      );
+      
+      const snapshot = await get(userRef);
+      
+      if (snapshot.exists()) {
+        const userData = Object.values(snapshot.val())[0];
+        if (password === userData.password) {
+          localStorage.setItem('user', JSON.stringify(userData));
+          navigate('/home');
+        } else {
+          setError('Invalid password');
+        }
+      } else {
+        setError('User not found');
+      }
+
     } catch (error) {
-      setError('Failed to login. Please check your credentials.');
+      console.error('Login error:', error);
+      setError('Failed to login. Please try again.');
     }
   };
 
