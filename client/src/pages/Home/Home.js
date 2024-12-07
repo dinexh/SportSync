@@ -137,40 +137,6 @@ const Home = () => {
           ))}
         </div>
       </section>
-
-      {/* <section className="events-section">
-        <div className="section-header">
-          <span className="section-subtitle">WHAT'S HAPPENING</span>
-          <h2 className="section-title">UPCOMING EVENTS</h2>
-        </div>
-        <div className="events-container">
-          {upcomingEvents.map((event) => (
-            <div key={event.id} className="event-card">
-              <div className="event-content">
-                <div className="event-header">
-                  <span className="event-date">
-                    {new Date(event.date).toLocaleDateString('en-US', {
-                      month: 'short',
-                      day: 'numeric'
-                    })}
-                  </span>
-                  <span className="event-time">{event.time}</span>
-                </div>
-                <h3>{event.title}</h3>
-                <div className="event-details">
-                  <p>{event.venue}</p>
-                  <p>{event.teams}</p>
-                </div>
-                <div className="event-footer">
-                  <span className="event-sport-tag">{event.sport}</span>
-                  <button className="register-btn">Register</button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section> */}
-
       <section className="testimonials-section">
         <div className="section-header">
           <span className="section-subtitle">SUCCESS STORIES</span>

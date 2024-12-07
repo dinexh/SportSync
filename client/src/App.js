@@ -2,12 +2,11 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar/Navbar';
-// import Chatbot from './components/Chatbot/Chatbot';
+import Footer from './components/Footer/footer';
+
 import Home from './pages/Home/Home';
 import Login from './pages/Auth/Login';
-import StudentRegister from './pages/Auth/StudentRegister';
-import CoachRegister from './pages/Auth/CoachRegister';
-import Departments from './pages/Departments/Departments';
+import Register from './pages/Auth/Register';
 import LiveMatches from './pages/LiveMatches/LiveMatches';
 import Tournaments from './pages/Tournaments/Tournaments';
 import Athletes from './pages/Athletes/Athletes';
@@ -24,22 +23,21 @@ function App() {
         <div className="App">
           <Navbar />
           <Routes>
-            {/* Redirect root path to login */}
             <Route path="/" element={<Navigate to="/login" replace />} />
             
             {/* Public auth routes */}
             <Route path="/login" element={<Login />} />
-            <Route path="/register/student" element={<StudentRegister />} />
+            <Route path="/register" element={<Register />} />
             
             {/* Protected auth routes */}
-            <Route 
+            {/* <Route 
               path="/register/coach" 
               element={
                 <ProtectedRoute>
                   <CoachRegister />
                 </ProtectedRoute>
               } 
-            />
+            /> */}
             
             {/* Protected routes */}
             <Route 
@@ -50,14 +48,14 @@ function App() {
                 </ProtectedRoute>
               } 
             />
-            <Route 
+            {/* <Route 
               path="/departments" 
               element={
                 <ProtectedRoute>
                   <Departments />
                 </ProtectedRoute>
               } 
-            />
+            /> */}
             <Route 
               path="/live-matches" 
               element={
@@ -107,7 +105,7 @@ function App() {
               } 
             />
           </Routes>
-          {/* <Chatbot /> */}
+          <Footer />
         </div>
       </Router>
     </AuthProvider>

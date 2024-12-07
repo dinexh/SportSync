@@ -1,0 +1,10 @@
+.footer {
+    background-color: black;
+    color: #ffffff;
+    padding: 1rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+.footer-in {
+    text-align: center;
+}

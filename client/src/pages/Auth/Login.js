@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import './Auth.css';
+import { FaEnvelope, FaLock, FaSignInAlt } from 'react-icons/fa';
+import './Login.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -22,37 +23,44 @@ const Login = () => {
 
   return (
     <div className="auth-container">
-      <div className="card">
-        <h2>Login to KL Sports Hub</h2>
+      <div className="login-card">
+        <h2>Welcome Back!</h2>
+        <p className="auth-subtitle">Login to access your KL Sports Hub account</p>
         {error && <div className="error-alert">{error}</div>}
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">
+              <FaEnvelope className="input-icon" /> Email
+            </label>
             <input
               type="email"
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email"
               required
             />
           </div>
           <div className="form-group">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">
+              <FaLock className="input-icon" /> Password
+            </label>
             <input
               type="password"
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter your password"
               required
             />
           </div>
           <button type="submit" className="btn btn-primary">
-            Login
+            <FaSignInAlt className="button-icon" /> Login
           </button>
         </form>
         <div className="auth-links">
-          <Link to="/register/student">Register as Student</Link>
-          <Link to="/register/coach">Register as Coach</Link>
+          <Link to="/register">Register</Link>
+    
         </div>
       </div>
     </div>

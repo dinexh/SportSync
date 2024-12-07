@@ -18,56 +18,76 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="navbar-container">
         <Link to={user ? "/home" : "/"} className="navbar-brand">
-          KL SportsHub
+          <span className="brand-text">Sports</span>
+          <span className="brand-text accent">Sync</span>
         </Link>
+        
         <div className="navbar-links">
           {user && (
-            <>
-              <Link to="/home">Home</Link>
-              <Link to="/departments">Departments</Link>
-              <Link to="/live-matches">Live Matches</Link>
-              <Link to="/tournaments">Tournaments</Link>
-              <Link to="/athletes">Athletes</Link>
-            </>
-          )}
-          
-          {!user ? (
-            <>
-              <Link to="/login" className="nav-button">Login</Link>
-              <Link to="/register/student" className="nav-button primary">Register</Link>
-            </>
-          ) : (
-            <div className="account-dropdown">
-              <button 
-                className="account-button"
-                onClick={() => setIsAccountMenuOpen(!isAccountMenuOpen)}
-              >
-                <i className="fas fa-user"></i>
-                My Account
-                <i className={`fas fa-chevron-${isAccountMenuOpen ? 'up' : 'down'}`}></i>
-              </button>
-              {isAccountMenuOpen && (
-                <div className="account-menu">
-                  <Link to="/profile" onClick={() => setIsAccountMenuOpen(false)}>
-                    <i className="fas fa-user-circle"></i>
-                    Profile
-                  </Link>
-                  <Link to="/account/registrations" onClick={() => setIsAccountMenuOpen(false)}>
-                    <i className="fas fa-clipboard-list"></i>
-                    My Registrations
-                  </Link>
-                  <Link to="/account/settings" onClick={() => setIsAccountMenuOpen(false)}>
-                    <i className="fas fa-cog"></i>
-                    Settings
-                  </Link>
-                  <button onClick={handleLogout} className="logout-button">
-                    <i className="fas fa-sign-out-alt"></i>
-                    Logout
-                  </button>
-                </div>
-              )}
+            <div className="nav-items">
+              <Link to="/home" className="nav-link">
+                <i className="fas fa-home"></i>
+                <span>Home</span>
+              </Link>
+              <Link to="/live-matches" className="nav-link">
+                <i className="fas fa-play-circle"></i>
+                <span>Live</span>
+              </Link>
+              <Link to="/tournaments" className="nav-link">
+                <i className="fas fa-trophy"></i>
+                <span>Tournaments</span>
+              </Link>
+              <Link to="/athletes" className="nav-link">
+                <i className="fas fa-running"></i>
+                <span>Athletes</span>
+              </Link>
+              <Link to="/news" className="nav-link">
+                <i className="fas fa-newspaper"></i>
+                <span>News</span>
+              </Link>
             </div>
           )}
+          
+          <div className="auth-section">
+            {!user ? (
+              <div className="auth-buttons">
+                <Link to="/login" className="nav-button">Login</Link>
+                <Link to="/Register" className="nav-button primary">Register</Link>
+              </div>
+            ) : (
+              <div className="account-dropdown">
+                <button 
+                  className="account-button"
+                  onClick={() => setIsAccountMenuOpen(!isAccountMenuOpen)}
+                >
+                  <div className="avatar">
+                    {user.name ? user.name[0].toUpperCase() : 'U'}
+                  </div>
+                  <i className={`fas fa-chevron-${isAccountMenuOpen ? 'up' : 'down'}`}></i>
+                </button>
+                {isAccountMenuOpen && (
+                  <div className="account-menu">
+                    <Link to="/profile" onClick={() => setIsAccountMenuOpen(false)}>
+                      <i className="fas fa-user-circle"></i>
+                      Profile
+                    </Link>
+                    <Link to="/account/registrations" onClick={() => setIsAccountMenuOpen(false)}>
+                      <i className="fas fa-clipboard-list"></i>
+                      My Registrations
+                    </Link>
+                    <Link to="/account/settings" onClick={() => setIsAccountMenuOpen(false)}>
+                      <i className="fas fa-cog"></i>
+                      Settings
+                    </Link>
+                    <button onClick={handleLogout} className="logout-button">
+                      <i className="fas fa-sign-out-alt"></i>
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </nav>
