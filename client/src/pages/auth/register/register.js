@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { termsAndConditions } from '../../../data/terms';
 import './register.css';
 import registrationIllustration from '../../../assets/images/register.avif';
@@ -33,13 +35,58 @@ const Register = () => {
         setCurrentStep(prev => prev - 1);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (currentStep < 3) {
             nextStep();
-        } else {
-            // Submit the form
-            console.log(formData);
+            return;
+        }
+
+        // Validate passwords match
+        if (formData.password !== formData.confirmPassword) {
+            toast.error("Passwords don't match");
+            setErrors({ password: "Passwords don't match" });
+            return;
+        }
+
+        // Validate terms agreement
+        if (!formData.agreeToTerms) {
+            toast.error("Please agree to the Terms and Conditions");
+            return;
+        }
+
+        try {
+            const response = await fetch('http://localhost:5001/api/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: formData.email,
+                    password: formData.password,
+                    name: formData.name,
+                    phoneNumber: formData.phoneNumber,
+                    profession: formData.profession
+                }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Registration failed');
+            }
+
+            toast.success('Registration successful! Redirecting to login...');
+            
+            // Redirect after a short delay to show the success message
+            setTimeout(() => {
+                window.location.href = '/login';
+            }, 2000);
+        } catch (error) {
+            toast.error(error.message || 'Registration failed. Please try again.');
+            setErrors({
+                submit: error.message || 'Registration failed. Please try again.'
+            });
         }
     };
 
@@ -156,6 +203,18 @@ const Register = () => {
 
     return (
         <div className="register-container">
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
             <div className="register-left">
                 <img 
                     src={registrationIllustration} 

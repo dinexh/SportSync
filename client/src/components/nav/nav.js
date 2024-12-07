@@ -16,6 +16,10 @@ const Nav = () => {
         }
     };
 
+    const goToSignUp = () => {
+        window.location.href = '/register';
+    };
+
     return (
         <div className="nav-container">
             <div className="nav-container-in">
@@ -31,7 +35,7 @@ const Nav = () => {
                             <h1 onClick={() => scrollToSection('testimonials')}>Testimonials</h1>
                         </div>
                         <div className="nav-container-in-two-in-two">
-                            <button onClick={() => scrollToSection('features')}>
+                            <button onClick={goToSignUp}>
                                 <h1>Get Started</h1>
                             </button>
                         </div>

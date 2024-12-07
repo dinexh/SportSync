@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './login.css';
 import illustration from '../../../assets/auth-illustration.svg';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -39,15 +41,45 @@ const Login = () => {
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       setIsLoading(false);
+      // Show validation errors in toast
+      Object.values(newErrors).forEach(error => {
+        toast.error(error);
+      });
       return;
     }
 
     try {
-      // Add your login logic here
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
-      navigate('/home');
+      const response = await fetch('http://localhost:5001/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Login failed');
+      }
+
+      // Store the token in localStorage
+      localStorage.setItem('token', data.token);
+      
+      toast.success('Login successful! Redirecting...');
+      
+      // Redirect after a short delay to show the success message
+      setTimeout(() => {
+        navigate('/home');
+      }, 1500);
     } catch (error) {
-      setErrors({ submit: 'Invalid credentials. Please try again.' });
+      toast.error(error.message || 'Invalid credentials. Please try again.');
+      setErrors({ 
+        submit: error.message || 'Invalid credentials. Please try again.' 
+      });
     } finally {
       setIsLoading(false);
     }
@@ -55,6 +87,18 @@ const Login = () => {
 
   return (
     <div className="login-container">
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <div className="login-illustration">
         <img src={illustration} alt="Login illustration" />
       </div>

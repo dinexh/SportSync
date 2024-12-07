@@ -1,4 +1,5 @@
 import './App.css';
+import './styles/toast.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // components
