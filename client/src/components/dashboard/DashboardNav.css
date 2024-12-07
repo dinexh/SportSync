@@ -1,0 +1,71 @@
+.dashboard-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 250px; /* Same as sidebar width */
+  z-index: 100;
+}
+
+.dashboard-nav-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.dashboard-logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  text-decoration: none;
+}
+
+.dashboard-role {
+  padding: 0.25rem 0.75rem;
+  background-color: #e3e3e3;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.dashboard-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.dashboard-user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dashboard-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.dashboard-username {
+  font-weight: 500;
+}
+
+.dashboard-logout-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #ff4444;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.dashboard-logout-btn:hover {
+  background-color: #ff0000;
+} 

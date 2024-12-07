@@ -4,9 +4,11 @@ import './login.css';
 import illustration from '../../../assets/auth-illustration.svg';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useAuth } from '../../../context/AuthContext';
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -49,32 +51,18 @@ const Login = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:5001/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-        }),
+      const role = await login({
+        email: e.target.email.value,
+        password: e.target.password.value
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Login failed');
-      }
-
-      // Store the token in localStorage
-      localStorage.setItem('token', data.token);
-      
-      toast.success('Login successful! Redirecting...');
-      
-      // Redirect after a short delay to show the success message
-      setTimeout(() => {
-        navigate('/home');
-      }, 1500);
+      // Redirect based on role
+      const dashboardPaths = {
+        coach: '/dashboard/coach',
+        player: '/dashboard/player',
+        user: '/dashboard/user'
+      };
+      navigate(dashboardPaths[role]);
     } catch (error) {
       toast.error(error.message || 'Invalid credentials. Please try again.');
       setErrors({ 
