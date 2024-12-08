@@ -1,9 +1,7 @@
 .live-matches-container {
-  padding: 40px 20px;
+  padding: var(--spacing-xl) var(--spacing-md);
   max-width: 1200px;
   margin: 0 auto;
-  position: relative;
-  z-index: 1;
 }
 
 .live-matches-wrapper {
@@ -13,21 +11,19 @@
   right: 0;
   bottom: 0;
   background: linear-gradient(
-      rgba(255, 255, 255, 0.92),
-      rgba(255, 255, 255, 0.92)
-    ),
-    url('https://wallpapercave.com/wp/Ve8VNr4.jpg') center/cover no-repeat fixed;
+    rgba(255, 255, 255, 0.97),
+    rgba(255, 255, 255, 0.97)
+  );
   z-index: -1;
 }
 
 .section-title {
   text-align: center;
-  margin-bottom: 40px;
-  color: #e31837;
-  font-size: 2.5rem;
-  position: relative;
-  text-transform: uppercase;
+  margin-bottom: var(--spacing-xl);
+  color: var(--primary);
+  font-size: 2rem;
   font-weight: 700;
+  position: relative;
 }
 
 .section-title::after {
@@ -37,55 +33,47 @@
   left: 50%;
   transform: translateX(-50%);
   width: 60px;
-  height: 4px;
-  background-color: #e31837;
-  border-radius: 2px;
+  height: 3px;
+  background-color: var(--primary);
+  border-radius: var(--radius-sm);
 }
 
 .matches-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
-  padding: 20px 0;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--spacing-lg);
 }
 
 .match-card {
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 15px;
+  background: white;
+  border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--gray-200);
   transition: all 0.3s ease;
 }
 
 .match-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-}
-
-.match-card.selected {
-  border: 2px solid #e31837;
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
 }
 
 .match-header {
-  padding: 15px;
+  padding: var(--spacing-md);
+  background: var(--gray-50);
+  border-bottom: 1px solid var(--gray-200);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #f8f9fa;
-  border-bottom: 1px solid #eee;
 }
 
 .sport-tag {
-  background: #e31837;
+  background: var(--primary);
   color: white;
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 0.9rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-xl);
+  font-size: 0.875rem;
+  font-weight: 500;
 }
 
 .live-indicator {

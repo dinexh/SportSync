@@ -2,110 +2,31 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar/Navbar';
-import Footer from './components/Footer/footer';
-
 import Home from './pages/Home/Home';
-import Login from './pages/Auth/Login';
-import Register from './pages/Auth/Register';
-import LiveMatches from './pages/LiveMatches/LiveMatches';
-import Tournaments from './pages/Tournaments/Tournaments';
+import Events from './pages/Events/Events';
+import Account from './pages/Account/Account';
 import Athletes from './pages/Athletes/Athletes';
-import Profile from './pages/Account/Profile';
-import ProtectedRoute from './components/ProtectedRoute';
-import MyRegistrations from './pages/Account/MyRegistrations';
-import Settings from './pages/Account/Settings';
-import './App.css';
+import LiveMatches from './pages/LiveMatches/LiveMatches';
+import Stats from './pages/Stats/Stats';
+import Tournaments from './pages/Tournaments/Tournaments';
+import './styles/pages.css';
 
 function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="App">
-          <Navbar />
+        <Navbar />
+        <div className="container">
           <Routes>
-            <Route path="/" element={<Navigate to="/login" replace />} />
-            
-            {/* Public auth routes */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            
-            {/* Protected auth routes */}
-            {/* <Route 
-              path="/register/coach" 
-              element={
-                <ProtectedRoute>
-                  <CoachRegister />
-                </ProtectedRoute>
-              } 
-            /> */}
-            
-            {/* Protected routes */}
-            <Route 
-              path="/home" 
-              element={
-                <ProtectedRoute>
-                  <Home />
-                </ProtectedRoute>
-              } 
-            />
-            {/* <Route 
-              path="/departments" 
-              element={
-                <ProtectedRoute>
-                  <Departments />
-                </ProtectedRoute>
-              } 
-            /> */}
-            <Route 
-              path="/live-matches" 
-              element={
-                <ProtectedRoute>
-                  <LiveMatches />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/tournaments" 
-              element={
-                <ProtectedRoute>
-                  <Tournaments />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/athletes" 
-              element={
-                <ProtectedRoute>
-                  <Athletes />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/profile" 
-              element={
-                <ProtectedRoute>
-                  <Profile />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/account/registrations" 
-              element={
-                <ProtectedRoute>
-                  <MyRegistrations />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/account/settings" 
-              element={
-                <ProtectedRoute>
-                  <Settings />
-                </ProtectedRoute>
-              } 
-            />
+            <Route path="/" element={<Navigate to="/home" replace />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/events" element={<Events />} />
+            <Route path="/account" element={<Account />} />
+            <Route path="/athletes" element={<Athletes />} />
+            <Route path="/live-matches" element={<LiveMatches />} />
+            <Route path="/stats" element={<Stats />} />
+            <Route path="/tournaments" element={<Tournaments />} />
           </Routes>
-          <Footer />
         </div>
       </Router>
     </AuthProvider>

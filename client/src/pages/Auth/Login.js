@@ -1,45 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
 import { FaEnvelope, FaLock, FaSignInAlt } from 'react-icons/fa';
 import './Login.css';
-import { database } from '../../firebase/config';
-import { ref, query, orderByChild, equalTo, get } from 'firebase/database';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      const userRef = query(
-        ref(database, 'users'),
-        orderByChild('email'),
-        equalTo(email)
-      );
-      
-      const snapshot = await get(userRef);
-      
-      if (snapshot.exists()) {
-        const userData = Object.values(snapshot.val())[0];
-        if (password === userData.password) {
-          localStorage.setItem('user', JSON.stringify(userData));
-          navigate('/home');
-        } else {
-          setError('Invalid password');
-        }
-      } else {
-        setError('User not found');
-      }
-
-    } catch (error) {
-      console.error('Login error:', error);
-      setError('Failed to login. Please try again.');
-    }
+    // Create a mock user object
+    const mockUser = {
+      id: 1,
+      name: 'Demo User',
+      email: 'demo@example.com',
+      role: 'user'
+    };
+    
+    // Store mock user in localStorage
+    localStorage.setItem('user', JSON.stringify(mockUser));
+    
+    // Navigate to home/dashboard
+    navigate('/dashboard');
   };
 
   return (
@@ -47,7 +28,6 @@ const Login = () => {
       <div className="login-card">
         <h2>Welcome Back!</h2>
         <p className="auth-subtitle">Login to access your KL Sports Hub account</p>
-        {error && <div className="error-alert">{error}</div>}
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
             <label htmlFor="email">
@@ -56,8 +36,6 @@ const Login = () => {
             <input
               type="email"
               id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
               required
             />
@@ -69,8 +47,6 @@ const Login = () => {
             <input
               type="password"
               id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
               required
             />
@@ -81,7 +57,6 @@ const Login = () => {
         </form>
         <div className="auth-links">
           <Link to="/register">Register</Link>
-    
         </div>
       </div>
     </div>

@@ -17,42 +17,50 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        <Link to={user ? "/home" : "/"} className="navbar-brand">
+        <Link to="/home" className="navbar-brand">
           <span className="brand-text">Sports</span>
           <span className="brand-text accent">Sync</span>
         </Link>
         
         <div className="navbar-links">
-          {user && (
-            <div className="nav-items">
-              <Link to="/home" className="nav-link">
-                <i className="fas fa-home"></i>
-                <span>Home</span>
+          <div className="nav-items">
+            <Link to="/home" className="nav-link">
+              <i className="fas fa-home"></i>
+              <span>Home</span>
+            </Link>
+            <Link to="/live-matches" className="nav-link">
+              <i className="fas fa-play-circle"></i>
+              <span>Live</span>
+            </Link>
+            <Link to="/tournaments" className="nav-link">
+              <i className="fas fa-trophy"></i>
+              <span>Tournaments</span>
+            </Link>
+            <Link to="/athletes" className="nav-link">
+              <i className="fas fa-running"></i>
+              <span>Athletes</span>
+            </Link>
+            <Link to="/events" className="nav-link">
+              <i className="fas fa-calendar-alt"></i>
+              <span>Events</span>
+            </Link>
+            <Link to="/stats" className="nav-link">
+              <i className="fas fa-chart-bar"></i>
+              <span>Stats</span>
+            </Link>
+            {user && (
+              <Link to="/events/create" className="nav-link create-event">
+                <i className="fas fa-plus-circle"></i>
+                <span>Create Event</span>
               </Link>
-              <Link to="/live-matches" className="nav-link">
-                <i className="fas fa-play-circle"></i>
-                <span>Live</span>
-              </Link>
-              <Link to="/tournaments" className="nav-link">
-                <i className="fas fa-trophy"></i>
-                <span>Tournaments</span>
-              </Link>
-              <Link to="/athletes" className="nav-link">
-                <i className="fas fa-running"></i>
-                <span>Athletes</span>
-              </Link>
-              <Link to="/news" className="nav-link">
-                <i className="fas fa-newspaper"></i>
-                <span>News</span>
-              </Link>
-            </div>
-          )}
+            )}
+          </div>
           
           <div className="auth-section">
             {!user ? (
               <div className="auth-buttons">
                 <Link to="/login" className="nav-button">Login</Link>
-                <Link to="/Register" className="nav-button primary">Register</Link>
+                <Link to="/register" className="nav-button primary">Register</Link>
               </div>
             ) : (
               <div className="account-dropdown">
@@ -67,9 +75,9 @@ const Navbar = () => {
                 </button>
                 {isAccountMenuOpen && (
                   <div className="account-menu">
-                    <Link to="/profile" onClick={() => setIsAccountMenuOpen(false)}>
+                    <Link to="/account" onClick={() => setIsAccountMenuOpen(false)}>
                       <i className="fas fa-user-circle"></i>
-                      Profile
+                      Account
                     </Link>
                     <Link to="/account/registrations" onClick={() => setIsAccountMenuOpen(false)}>
                       <i className="fas fa-clipboard-list"></i>

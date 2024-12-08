@@ -1,0 +1,150 @@
+:root {
+  --primary-color: #4a90e2;
+  --text-color: #333;
+  --bg-color: #f5f7fa;
+  --card-bg: #ffffff;
+  --border-color: #e1e4e8;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.events-container {
+  max-width: 1200px;
+  margin: var(--spacing-xl) auto;
+  padding: 0 var(--spacing-md);
+}
+
+.page-title {
+  font-size: 1.75rem;
+  color: var(--gray-800);
+  margin-bottom: var(--spacing-xl);
+  font-weight: 600;
+}
+
+.event-form-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-md);
+  margin-bottom: var(--spacing-xl);
+}
+
+.form-group {
+  margin-bottom: var(--spacing-lg);
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: var(--spacing-sm);
+  font-weight: 500;
+  color: var(--gray-700);
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.form-group textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.submit-button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  opacity: 0.9;
+}
+
+.section-title {
+  font-size: 24px;
+  margin: 40px 0 24px;
+  font-weight: 600;
+}
+
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.event-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.event-card h3 {
+  font-size: 18px;
+  margin: 0 0 12px 0;
+  font-weight: 600;
+}
+
+.event-detail {
+  font-size: 14px;
+  color: #666;
+  margin: 8px 0;
+}
+
+.event-description {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #444;
+  margin-top: 12px;
+}
+
+@media (max-width: 768px) {
+  .events-container {
+    margin: 20px auto;
+    padding: 0 16px;
+  }
+
+  .events-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-color: #e1e1e1;
+    --bg-color: #1a1a1a;
+    --card-bg: #2d2d2d;
+    --border-color: #404040;
+  }
+
+  .submit-button {
+    background-color: var(--primary-color);
+  }
+
+  .event-detail {
+    color: #999;
+  }
+
+  .event-description {
+    color: #888;
+  }
+} 
